@@ -3,168 +3,205 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Northwind — Tools for people who build</title>
-  <meta name="description" content="Northwind helps small teams ship faster. Replace the placeholder text with your own." />
+  <title>Lattice — AI for materials discovery</title>
+  <meta name="description" content="Lattice uses AI to discover and design new materials in a fraction of the time. Replace the placeholder copy with your own." />
 
-  <!-- Distinctive fonts, loaded free from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --ink: #181410;
-      --paper: #f4efe6;
-      --paper-2: #ebe3d4;
-      --accent: #d6451f;
-      --accent-deep: #a8330f;
-      --muted: #6b6358;
-      --line: rgba(24, 20, 16, 0.14);
+      --bg: #07080c;
+      --bg-2: #0d1018;
+      --panel: #11151f;
+      --ink: #eef1f7;
+      --muted: #8b93a7;
+      --line: rgba(255, 255, 255, 0.09);
+      --accent: #4ade9b;
+      --accent-2: #5b8cff;
+      --glow: rgba(74, 222, 155, 0.25);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--paper);
+      background: var(--bg);
       color: var(--ink);
-      font-family: "Spline Sans Mono", ui-monospace, monospace;
+      font-family: "Familjen Grotesk", system-ui, sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* subtle grain/texture so the background isn't flat */
     body::before {
       content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(900px 500px at 78% -5%, rgba(91, 140, 255, 0.16), transparent 60%),
+        radial-gradient(800px 600px at 10% 8%, rgba(74, 222, 155, 0.12), transparent 55%);
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       opacity: 0.5;
-      background-image: radial-gradient(var(--line) 1px, transparent 1px);
-      background-size: 22px 22px;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at 50% 30%, black, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at 50% 30%, black, transparent 80%);
     }
 
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
 
-    /* ---------- Nav ---------- */
-    nav {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 28px 0;
-    }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 26px 0; }
     .logo {
-      font-family: "Fraunces", serif;
-      font-weight: 900;
-      font-size: 1.45rem;
-      letter-spacing: -0.02em;
+      font-family: "Familjen Grotesk", sans-serif; font-weight: 700;
+      font-size: 1.3rem; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px;
     }
-    .logo span { color: var(--accent); }
+    .logo .mark { width: 22px; height: 22px; position: relative; display: inline-block; }
+    .logo .mark::before, .logo .mark::after {
+      content: ""; position: absolute; inset: 0; border: 1.5px solid var(--accent); border-radius: 4px;
+    }
+    .logo .mark::after { transform: rotate(45deg) scale(0.66); border-color: var(--accent-2); }
     .nav-links { display: flex; gap: 26px; align-items: center; }
     .nav-links a {
-      color: var(--ink); text-decoration: none; font-size: 0.85rem;
-      letter-spacing: 0.02em; opacity: 0.75; transition: opacity 0.2s;
+      color: var(--ink); text-decoration: none; font-size: 0.86rem; opacity: 0.72; transition: opacity 0.2s;
     }
     .nav-links a:hover { opacity: 1; }
     .nav-cta {
-      background: var(--ink); color: var(--paper) !important;
-      padding: 9px 18px; border-radius: 100px; opacity: 1 !important;
+      border: 1px solid var(--line); padding: 9px 18px; border-radius: 100px; opacity: 1 !important;
+      transition: border-color 0.2s, background 0.2s;
     }
+    .nav-cta:hover { border-color: var(--accent); background: rgba(74, 222, 155, 0.08); }
 
-    /* ---------- Hero ---------- */
-    header { padding: 80px 0 90px; }
+    header { padding: 76px 0 88px; }
     .eyebrow {
-      display: inline-block;
-      font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--accent-deep);
-      border: 1px solid var(--accent);
-      border-radius: 100px; padding: 6px 14px;
-      margin-bottom: 28px;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--line);
+      border-radius: 100px; padding: 6px 14px; margin-bottom: 30px;
+    }
+    .eyebrow .dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+      box-shadow: 0 0 0 0 var(--glow); animation: pulse 2.4s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 var(--glow); }
+      70% { box-shadow: 0 0 0 9px rgba(74,222,155,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,155,0); }
     }
     h1 {
-      font-family: "Fraunces", serif;
-      font-weight: 900;
-      font-size: clamp(2.6rem, 7vw, 5.2rem);
-      line-height: 0.98;
-      letter-spacing: -0.03em;
-      max-width: 16ch;
-      margin-bottom: 26px;
+      font-family: "Newsreader", serif; font-weight: 500;
+      font-size: clamp(2.7rem, 7vw, 5.4rem); line-height: 1.0;
+      letter-spacing: -0.02em; max-width: 17ch; margin-bottom: 26px;
     }
-    h1 em { font-style: italic; color: var(--accent); }
-    .lede {
-      font-size: clamp(1rem, 2vw, 1.18rem);
-      color: var(--muted);
-      max-width: 52ch;
-      margin-bottom: 38px;
+    h1 em {
+      font-style: italic;
+      background: linear-gradient(100deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
     }
+    .lede { font-size: clamp(1.02rem, 2vw, 1.2rem); color: var(--muted); max-width: 56ch; margin-bottom: 38px; }
     .cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
     .btn {
-      display: inline-block; text-decoration: none;
-      font-size: 0.92rem; font-weight: 500;
+      display: inline-block; text-decoration: none; font-weight: 500; font-size: 0.94rem;
       padding: 14px 26px; border-radius: 100px;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.2s;
     }
     .btn-primary {
-      background: var(--accent); color: var(--paper);
-      box-shadow: 0 8px 24px rgba(214, 69, 31, 0.28);
+      background: linear-gradient(100deg, var(--accent), var(--accent-2));
+      color: #06140d; box-shadow: 0 10px 30px rgba(74, 222, 155, 0.22);
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(214, 69, 31, 0.36); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(74, 222, 155, 0.32); }
     .btn-ghost { color: var(--ink); border: 1px solid var(--line); }
     .btn-ghost:hover { transform: translateY(-2px); border-color: var(--ink); }
 
-    /* staggered load-in */
+    .metrics {
+      display: flex; gap: 52px; flex-wrap: wrap; margin-top: 60px;
+      padding-top: 34px; border-top: 1px solid var(--line);
+    }
+    .metric .num { font-family: "Newsreader", serif; font-size: 2.3rem; line-height: 1; letter-spacing: -0.02em; }
+    .metric .num span { color: var(--accent); }
+    .metric .label {
+      font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 8px;
+    }
+
     .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.7s ease forwards; }
     .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; }
-    .d3 { animation-delay: 0.25s; } .d4 { animation-delay: 0.35s; }
+    .d3 { animation-delay: 0.25s; } .d4 { animation-delay: 0.35s; } .d5 { animation-delay: 0.45s; }
     @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
-    /* ---------- Features ---------- */
-    section { padding: 70px 0; border-top: 1px solid var(--line); }
+    section { padding: 76px 0; border-top: 1px solid var(--line); }
+    .section-head { max-width: 60ch; margin-bottom: 46px; }
     .section-label {
-      font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 40px;
+      font-family: "IBM Plex Mono", monospace; font-size: 0.74rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;
     }
-    .grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
-      background: var(--line); border: 1px solid var(--line);
+    .section-head h2 {
+      font-family: "Newsreader", serif; font-weight: 500;
+      font-size: clamp(1.8rem, 4vw, 2.7rem); letter-spacing: -0.02em; line-height: 1.1;
     }
-    .card { background: var(--paper); padding: 32px 28px; }
-    .card-num {
-      font-family: "Fraunces", serif; font-size: 0.9rem;
-      color: var(--accent); margin-bottom: 18px;
-    }
-    .card h3 {
-      font-family: "Fraunces", serif; font-weight: 600;
-      font-size: 1.3rem; margin-bottom: 10px; letter-spacing: -0.01em;
-    }
-    .card p { font-size: 0.9rem; color: var(--muted); }
+    .section-head p { color: var(--muted); margin-top: 16px; font-size: 1.02rem; }
 
-    /* ---------- CTA band ---------- */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--bg-2));
+      border: 1px solid var(--line); border-radius: 16px; padding: 30px 26px;
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+    .card:hover { transform: translateY(-4px); border-color: rgba(74, 222, 155, 0.4); }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(74, 222, 155, 0.1); border: 1px solid rgba(74, 222, 155, 0.25);
+      font-family: "IBM Plex Mono", monospace; color: var(--accent); font-size: 0.9rem;
+    }
+    .card h3 { font-family: "Newsreader", serif; font-weight: 500; font-size: 1.4rem; margin-bottom: 10px; letter-spacing: -0.01em; }
+    .card p { font-size: 0.92rem; color: var(--muted); }
+
+    .pipeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .step {
+      border: 1px solid var(--line); border-radius: 16px; padding: 28px 24px;
+      background: rgba(255,255,255,0.015); position: relative;
+    }
+    .step .n {
+      font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; color: var(--accent-2);
+      letter-spacing: 0.1em; margin-bottom: 16px;
+    }
+    .step h4 { font-family: "Familjen Grotesk", sans-serif; font-weight: 600; font-size: 1.08rem; margin-bottom: 8px; }
+    .step p { font-size: 0.9rem; color: var(--muted); }
+
     .band {
-      background: var(--ink); color: var(--paper);
-      border-radius: 22px; padding: 64px 48px; text-align: center;
-      margin: 20px 0;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(600px 300px at 80% 0%, rgba(91,140,255,0.16), transparent 60%),
+        radial-gradient(600px 300px at 10% 100%, rgba(74,222,155,0.14), transparent 60%),
+        var(--bg-2);
+      border-radius: 24px; padding: 66px 48px; text-align: center; margin: 24px 0;
     }
     .band h2 {
-      font-family: "Fraunces", serif; font-weight: 900;
-      font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -0.02em;
-      margin-bottom: 16px;
+      font-family: "Newsreader", serif; font-weight: 500;
+      font-size: clamp(1.9rem, 4vw, 3rem); letter-spacing: -0.02em; margin-bottom: 16px;
     }
-    .band p { color: rgba(244, 239, 230, 0.7); max-width: 44ch; margin: 0 auto 30px; }
+    .band p { color: var(--muted); max-width: 48ch; margin: 0 auto 30px; }
 
-    /* ---------- Footer ---------- */
     footer {
       padding: 50px 0 70px; border-top: 1px solid var(--line);
       display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-      font-size: 0.82rem; color: var(--muted);
+      font-size: 0.84rem; color: var(--muted); font-family: "IBM Plex Mono", monospace;
     }
-    footer a { color: var(--muted); }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
 
-    @media (max-width: 720px) {
+    @media (max-width: 760px) {
       .nav-links a:not(.nav-cta) { display: none; }
-      .grid { grid-template-columns: 1fr; }
-      .band { padding: 44px 24px; }
+      .grid, .pipeline { grid-template-columns: 1fr; }
+      .metrics { gap: 32px; }
+      .band { padding: 46px 24px; }
     }
   </style>
 </head>
@@ -172,61 +209,104 @@
   <div class="wrap">
 
     <nav>
-      <div class="logo reveal d1">North<span>wind</span></div>
+      <div class="logo reveal d1"><span class="mark"></span>Lattice</div>
       <div class="nav-links">
-        <a href="#features" class="reveal d2">Features</a>
-        <a href="#about" class="reveal d3">About</a>
-        <a href="mailto:hello@yourstartup.com" class="nav-cta reveal d4">Get in touch</a>
+        <a href="#platform" class="reveal d2">Platform</a>
+        <a href="#how" class="reveal d3">How it works</a>
+        <a href="#contact" class="reveal d4">Contact</a>
+        <a href="mailto:hello@yourstartup.com" class="nav-cta reveal d5">Request access</a>
       </div>
     </nav>
 
     <header>
-      <span class="eyebrow reveal d1">Now in early access</span>
-      <h1 class="reveal d2">Tools for people who actually <em>build</em> things.</h1>
+      <span class="eyebrow reveal d1"><span class="dot"></span> AI-native materials lab</span>
+      <h1 class="reveal d2">Discovering tomorrow's materials at the <em>speed of compute</em>.</h1>
       <p class="lede reveal d3">
-        Northwind is a placeholder for your startup's one-sentence promise. Say what you do,
-        for whom, and why it matters — then swap this text for the real thing.
+        Lattice is a placeholder name for your startup. We pair generative AI with
+        physics-grounded simulation to design, screen, and validate novel materials &mdash;
+        compressing years of trial-and-error in the lab into days of computation.
       </p>
       <div class="cta-row reveal d4">
-        <a href="mailto:hello@yourstartup.com" class="btn btn-primary">Request access</a>
-        <a href="#features" class="btn btn-ghost">See how it works</a>
+        <a href="mailto:hello@yourstartup.com" class="btn btn-primary">Request early access</a>
+        <a href="#how" class="btn btn-ghost">See how it works</a>
+      </div>
+
+      <div class="metrics reveal d5">
+        <div class="metric">
+          <div class="num"><span>100&times;</span></div>
+          <div class="label">Faster screening</div>
+        </div>
+        <div class="metric">
+          <div class="num"><span>10&#8310;+</span></div>
+          <div class="label">Candidates evaluated</div>
+        </div>
+        <div class="metric">
+          <div class="num"><span>92%</span></div>
+          <div class="label">Prediction accuracy*</div>
+        </div>
       </div>
     </header>
 
-    <section id="features">
-      <div class="section-label">What you get</div>
+    <section id="platform">
+      <div class="section-head">
+        <div class="section-label">// The platform</div>
+        <h2>An AI engine built for the physics of real materials.</h2>
+        <p>Swap this copy for your own &mdash; but the idea holds: pair learned models with hard science so predictions hold up in the lab, not just on a benchmark.</p>
+      </div>
       <div class="grid">
-        <div class="card">
-          <div class="card-num">01</div>
-          <h3>Ships fast</h3>
-          <p>Replace this with a real benefit. Keep it concrete — what does the customer gain?</p>
+        <div class="card reveal d1">
+          <div class="card-icon">&#9672;</div>
+          <h3>Generative design</h3>
+          <p>Models propose entirely new candidate compounds and crystal structures, exploring chemical space far beyond known databases.</p>
         </div>
-        <div class="card">
-          <div class="card-num">02</div>
-          <h3>Stays simple</h3>
-          <p>One clear idea per card. Three is plenty for a landing page; resist adding more.</p>
+        <div class="card reveal d2">
+          <div class="card-icon">&#8776;</div>
+          <h3>Physics-grounded simulation</h3>
+          <p>Every candidate is screened against learned surrogates of DFT and molecular dynamics, so results respect real-world constraints.</p>
         </div>
-        <div class="card">
-          <div class="card-num">03</div>
-          <h3>Built to trust</h3>
-          <p>End on credibility — security, support, a guarantee, or who already uses you.</p>
+        <div class="card reveal d3">
+          <div class="card-icon">&#10227;</div>
+          <h3>Closed-loop validation</h3>
+          <p>Lab results feed back into the models, tightening each prediction cycle and turning experiments into compounding advantage.</p>
         </div>
       </div>
     </section>
 
-    <section id="about">
+    <section id="how">
+      <div class="section-head">
+        <div class="section-label">// How it works</div>
+        <h2>From a target property to a validated material.</h2>
+      </div>
+      <div class="pipeline">
+        <div class="step reveal d1">
+          <div class="n">STEP 01</div>
+          <h4>Define the target</h4>
+          <p>Specify the properties you need &mdash; conductivity, strength, stability, cost &mdash; and the constraints you must hold.</p>
+        </div>
+        <div class="step reveal d2">
+          <div class="n">STEP 02</div>
+          <h4>AI explores the space</h4>
+          <p>Our models generate and rank millions of candidate materials, surfacing the most promising in hours, not years.</p>
+        </div>
+        <div class="step reveal d3">
+          <div class="n">STEP 03</div>
+          <h4>Validate &amp; iterate</h4>
+          <p>Top candidates move to synthesis and testing; results retrain the loop so the next round is sharper still.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
       <div class="band">
-        <h2>Be the first to try it.</h2>
-        <p>Drop your email and we'll reach out when early access opens. No spam, no noise.</p>
+        <h2>Building the future of materials? Let's talk.</h2>
+        <p>We're partnering with a small number of teams in energy, semiconductors, and advanced manufacturing. Reach out for early access.</p>
         <a href="mailto:hello@yourstartup.com" class="btn btn-primary">hello@yourstartup.com</a>
       </div>
     </section>
 
     <footer>
-      <div>© 2026 Northwind. All rights reserved.</div>
-      <div>
-        <a href="mailto:hello@yourstartup.com">hello@yourstartup.com</a>
-      </div>
+      <div>&copy; 2026 Lattice &mdash; placeholder name. All rights reserved.</div>
+      <div><a href="mailto:hello@yourstartup.com">hello@yourstartup.com</a></div>
     </footer>
 
   </div>
